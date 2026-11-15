@@ -1,0 +1,29 @@
+# PhishLab local deployment. Binds to 127.0.0.1 ONLY. Never expose publicly by default.
+services:
+  phishlab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: phishlab:1.0.0
+    # Host binding is localhost-only. Change deliberately and at your own risk.
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      # Static analysis is fully offline. Network lookups stay disabled.
+      PHISHLAB_ENABLE_NETWORK_LOOKUPS: "false"
+      PHISHLAB_DB_PATH: "/data/phishlab.sqlite3"
+      PHISHLAB_RETENTION_DAYS: "0"
+    volumes:
+      - phishlab_data:/data
+    restart: unless-stopped
+    # Extra hardening
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  phishlab_data:

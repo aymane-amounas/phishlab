@@ -1,0 +1,19 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PhishLab logo: a phish attacking an email">
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="#111722" stroke="#3b82f6" stroke-width="4"/>
+
+  <!-- the targeted email -->
+  <rect x="68" y="46" width="40" height="34" rx="5" fill="none" stroke="#d7dde5" stroke-width="3.5"/>
+  <path d="M70 49 L88 64 L106 49" fill="none" stroke="#d7dde5" stroke-width="3.5" stroke-linejoin="round"/>
+
+  <!-- phish lunging from the left, mouth open on the email corner -->
+  <!-- tail fin -->
+  <path d="M28 64 C22 58 16 54 10 50 C14 60 14 68 10 78 C16 74 22 70 28 64 Z" fill="#3b82f6"/>
+  <!-- body with open mouth notch at the head (right) -->
+  <path d="M28 64 C32 44 52 42 62 48 L72 56 L63 64 L72 72 L62 80 C52 86 32 84 28 64 Z" fill="#3b82f6"/>
+  <!-- dorsal fin -->
+  <path d="M44 46 C52 40 62 41 69 47 C61 48 53 50 48 53 Z" fill="#2563eb"/>
+  <!-- gill line -->
+  <path d="M52 52 C48 58 48 70 52 76" stroke="#111722" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- eye -->
+  <circle cx="58" cy="58" r="3.2" fill="#111722"/>
+</svg>

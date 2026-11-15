@@ -3,19 +3,28 @@
 from __future__ import annotations
 
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from phishlab import __version__
 from phishlab.api import router
+from phishlab.banner import print_banner
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print_banner()
+    yield
+
 
 app = FastAPI(
     title="PhishLab",
     version=__version__,
     description="Safe, offline-first phishing investigation workbench.",
+    lifespan=lifespan,
 )
 
 # CORS: only the local dev frontend by default.
@@ -49,12 +58,8 @@ async def security_headers(request: Request, call_next):
 app.include_router(router)
 
 # Optionally serve a built frontend (single-container deployment).
+# Mounted last so /api/* routes always take precedence. html=True serves index.html at
+# "/" and exposes static files like /logo.svg and /assets/*.
 _FRONTEND_DIR = os.environ.get("PHISHLAB_FRONTEND_DIR", "")
 if _FRONTEND_DIR and os.path.isdir(_FRONTEND_DIR):
-    app.mount(
-        "/assets", StaticFiles(directory=os.path.join(_FRONTEND_DIR, "assets")), name="assets"
-    )
-
-    @app.get("/")
-    def index():
-        return FileResponse(os.path.join(_FRONTEND_DIR, "index.html"))
+    app.mount("/", StaticFiles(directory=_FRONTEND_DIR, html=True), name="frontend")

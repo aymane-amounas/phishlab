@@ -1,6 +1,10 @@
-# PhishLab
+<p align="center">
+  <img src="assets/logo.svg" width="96" alt="PhishLab logo" />
+</p>
 
-**Understand suspicious emails. Investigate the evidence. Make informed security decisions.**
+<h1 align="center">PhishLab</h1>
+
+<p align="center"><b>Understand suspicious emails. Investigate the evidence. Make informed security decisions.</b></p>
 
 PhishLab is a safe, offline-first phishing investigation workbench for SOC analysts,
 help desks, and security-conscious users. Import a suspicious `.eml`, and PhishLab parses

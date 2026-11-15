@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+*.local
+
+# Data & runtime (never commit real artifacts or cases)
+data/
+*.sqlite
+*.sqlite3
+*.db
+uploads/
+tmp/
+*.eml
+!backend/samples/corpus/*.eml
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log

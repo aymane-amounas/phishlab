@@ -1,8 +1,8 @@
 """Opt-in, SSRF-hardened redirect inspection. DISABLED by default.
 
 This module is the highest-risk surface in PhishLab. It ships disabled
-(PHISHLAB_ENABLE_NETWORK_LOOKUPS=false). Even when enabled, every destination — the
-initial host AND every redirect hop, by resolved IP — is validated against blocked
+(PHISHLAB_ENABLE_NETWORK_LOOKUPS=false). Even when enabled, every destination - the
+initial host AND every redirect hop, by resolved IP - is validated against blocked
 ranges before any connection. The guard functions are unit-tested regardless of whether
 the feature is enabled.
 

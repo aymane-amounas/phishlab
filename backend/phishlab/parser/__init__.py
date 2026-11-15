@@ -44,7 +44,7 @@ class AuthResults:
     spf: str | None = None  # pass/fail/softfail/neutral/none (sender-reported)
     dkim: str | None = None
     dmarc: str | None = None
-    verified: bool = False  # ALWAYS False in v1 — we do not independently verify
+    verified: bool = False  # ALWAYS False in v1 - we do not independently verify
 
 
 @dataclass

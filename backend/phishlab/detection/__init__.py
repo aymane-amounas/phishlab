@@ -2,7 +2,7 @@
 
 No opaque phishing percentage. Each rule emits a discrete Finding carrying its own
 evidence, source location, severity (potential impact if true) and confidence (how sure
-we are the signal is real) — reported INDEPENDENTLY. The overall assessment is a documented
+we are the signal is real) - reported INDEPENDENTLY. The overall assessment is a documented
 aggregation of these findings, explained in the UI/report, not a black box.
 
 See docs/detection-rules.md for the catalogue and methodology.
@@ -101,7 +101,7 @@ def _r_reply_to_mismatch(ctx: AnalysisContext) -> list[Finding]:
                 "high",
                 "high",
                 f"From={fd}  Reply-To={rd}",
-                "Replies are directed to a different domain than the apparent sender — a common "
+                "Replies are directed to a different domain than the apparent sender - a common "
                 "tactic to capture responses away from the spoofed brand.",
                 "header:from / header:reply-to",
                 "Confirm the legitimate contact domain out-of-band; do not reply.",
@@ -340,7 +340,7 @@ def _r_content(ctx: AnalysisContext) -> list[Finding]:
                 "medium",
                 "medium",
                 f"matched: {m.group(0)!r}",
-                "The message asks the recipient to log in or confirm credentials — the goal of "
+                "The message asks the recipient to log in or confirm credentials - the goal of "
                 "most phishing.",
                 "body",
                 "Never enter credentials from an email link.",
@@ -418,7 +418,7 @@ def _r_attachments(ctx: AnalysisContext) -> list[Finding]:
                         "medium",
                         "high",
                         f"{a.filename}  ({fl})",
-                        "The declared extension disagrees with the detected file signature — "
+                        "The declared extension disagrees with the detected file signature - "
                         "possible disguise.",
                         "attachment",
                         "Trust the detected type, not the extension.",
@@ -486,7 +486,7 @@ def _summarize(counts: dict[str, int], highest: str) -> str:
         parts.append(f"{hi} high/critical")
     return (
         f"{', '.join(parts)}; highest severity: {highest}. This is an aggregation of the "
-        "individual findings below — review each with its evidence before deciding a disposition."
+        "individual findings below - review each with its evidence before deciding a disposition."
     )
 
 

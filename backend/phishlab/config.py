@@ -32,7 +32,7 @@ class Settings:
     # Storage
     db_path: str = os.environ.get("PHISHLAB_DB_PATH", "./data/phishlab.sqlite3")
     retention_days: int = _int("PHISHLAB_RETENTION_DAYS", 0)  # 0 = keep until deleted
-    # Network module — OFF by default. SSRF-sensitive.
+    # Network module - OFF by default. SSRF-sensitive.
     network_lookups_enabled: bool = _bool("PHISHLAB_ENABLE_NETWORK_LOOKUPS", False)
     # CORS / binding is handled at the server/deployment layer (localhost by default)
 

@@ -30,11 +30,16 @@ app.add_middleware(
 @app.middleware("http")
 async def security_headers(request: Request, call_next):
     resp = await call_next(request)
-    # Strict CSP: no remote resources, no inline scripts for API responses.
-    resp.headers.setdefault(
-        "Content-Security-Policy",
-        "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
-    )
+    # API responses: lock everything down (no scripts, no remote resources).
+    # UI shell/assets: allow same-origin scripts/styles only (still no remote content).
+    if request.url.path.startswith("/api"):
+        csp = "default-src 'none'; frame-ancestors 'none'; base-uri 'none'"
+    else:
+        csp = (
+            "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; "
+            "connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+        )
+    resp.headers.setdefault("Content-Security-Policy", csp)
     resp.headers.setdefault("X-Content-Type-Options", "nosniff")
     resp.headers.setdefault("X-Frame-Options", "DENY")
     resp.headers.setdefault("Referrer-Policy", "no-referrer")

@@ -1,4 +1,4 @@
-"""Indicator extraction + normalization. Static only — never resolves or fetches.
+"""Indicator extraction + normalization. Static only - never resolves or fetches.
 
 Extracts URLs, domains, IPv4/IPv6 addresses, and email addresses from an email, keeping
 each indicator tied to WHERE it was found (source location) for evidence. Flags

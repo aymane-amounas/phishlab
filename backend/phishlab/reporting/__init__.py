@@ -187,7 +187,7 @@ def build_pdf_report(case: dict, redact: bool = True) -> bytes:
         story.append(
             Paragraph(
                 f'<font color="{sc.hexval()}"><b>[{esc(f.get("severity")).upper()}]</b></font> '
-                f"{esc(f.get('rule_id'))} — {esc(f.get('title'))} "
+                f"{esc(f.get('rule_id'))} - {esc(f.get('title'))} "
                 f'<font size=7 color="grey">(confidence: {esc(f.get("confidence"))})</font>',
                 styles["Normal"],
             )

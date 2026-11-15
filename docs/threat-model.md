@@ -5,12 +5,12 @@
 PhishLab is a workbench that analysts point **at malicious content on purpose**. The
 assets to protect are:
 
-1. **The analyst's host and session** — must not be compromised by analyzing a sample.
-2. **The confidentiality of the artifact** — suspicious emails often contain real
+1. **The analyst's host and session** - must not be compromised by analyzing a sample.
+2. **The confidentiality of the artifact** - suspicious emails often contain real
    victim data; it must not leak to third parties.
-3. **The integrity of findings** — the tool must not be tricked (by crafted input)
+3. **The integrity of findings** - the tool must not be tricked (by crafted input)
    into producing false evidence or executing attacker intent.
-4. **Availability** — malformed/oversized input must not crash or hang the service.
+4. **Availability** - malformed/oversized input must not crash or hang the service.
 
 ## 2. Trust boundaries
 
@@ -58,7 +58,7 @@ instructions embedded in it.
 
 ## 5. Residual risks (v1)
 
-- No independent SPF/DKIM/DMARC cryptographic verification — we report sender claims and
+- No independent SPF/DKIM/DMARC cryptographic verification - we report sender claims and
   locally observable alignment only.
 - No sandboxed detonation (explicitly out of scope; any future detonation must be a
   separate, isolated, opt-in system).

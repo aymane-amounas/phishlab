@@ -58,7 +58,7 @@ enables it and explicitly initiates a lookup for a specific URL.
   single-analyst workbench. Migrations + indexes included; swappable later.
 - **ADR-004 Network module isolated and default-off.** SSRF risk is high enough that
   static analysis must be fully useful without it.
-- **ADR-005 Severity ≠ confidence.** Severity = potential impact if true; confidence =
+- **ADR-005 Severity != confidence.** Severity = potential impact if true; confidence =
   how sure we are the signal is real. Reported separately.
 
 ## Deployment

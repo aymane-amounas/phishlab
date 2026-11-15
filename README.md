@@ -18,7 +18,7 @@ It is built around three non-negotiables:
    an SSRF-sensitive subsystem and ships **disabled by default**.
 
 > PhishLab never executes attachments, never renders untrusted HTML, and never
-> auto-opens extracted links. Treat it as an evidence surface for a human analyst — not
+> auto-opens extracted links. Treat it as an evidence surface for a human analyst - not
 > an oracle that returns a verdict.
 
 ## Features
@@ -27,13 +27,13 @@ It is built around three non-negotiables:
 - Full header + MIME tree parsing (multipart, nested, encoded/internationalized headers,
   malformed input handled defensively)
 - Sender identity analysis: display-name / Reply-To / Return-Path / From alignment
-- Authentication results parsing — clearly labeled **sender-reported**, not verified
+- Authentication results parsing - clearly labeled **sender-reported**, not verified
 - Indicator extraction: URLs, domains, IPv4/IPv6, emails, attachment metadata, hashes
 - Punycode/IDN and suspicious-Unicode detection, lookalike-domain analysis
 - Safe URL defanging (`hxxps://example[.]com`) + component breakdown
 - Static attachment inspection: name, declared MIME, magic-byte type, size, SHA-256,
-  double-extension and MIME-mismatch detection — **no execution, ever**
-- Transparent rule-based detection engine (severity ⟂ confidence)
+  double-extension and MIME-mismatch detection - **no execution, ever**
+- Transparent rule-based detection engine (severity vs confidence)
 - SQLite case management with notes, analyst disposition, search
 - JSON (versioned schema) and PDF reports, defanged, with redaction option
 - Opt-in, SSRF-hardened redirect inspection (disabled by default)
@@ -64,7 +64,7 @@ security model, the SSRF-safe network design, the report schema, and deployment.
 ## Safety & privacy
 
 Offline by default. No telemetry. Attachments are never executed. Untrusted HTML is never
-rendered. All sample emails in this repo are **synthetic** — no real addresses,
+rendered. All sample emails in this repo are **synthetic** - no real addresses,
 credentials, or private data. See [SECURITY.md](SECURITY.md),
 [docs/threat-model.md](docs/threat-model.md), and [docs/privacy.md](docs/privacy.md).
 
@@ -75,7 +75,7 @@ honest, per-milestone breakdown of what is built, tested, and deferred.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
 
 ---
 <sub>Built by [Aymane](https://github.com/aymane-amounas)</sub>

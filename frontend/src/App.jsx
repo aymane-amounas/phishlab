@@ -34,7 +34,7 @@ export default function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <img src="/logo.svg" alt="" width="28" height="28" className="brand-logo" />
+          <img src="/logo.png" alt="" width="28" height="28" className="brand-logo" />
           Phish<span>Lab</span>
         </div>
         <div className="tagline">Investigation workbench</div>

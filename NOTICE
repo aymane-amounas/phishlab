@@ -1,0 +1,15 @@
+PhishLab (phishlab)
+Copyright 2026 Aymane Amounas
+https://github.com/aymane-amounas/phishlab
+
+Licensed under the Aymane Amounas Noncommercial Attribution License 1.0.
+See the LICENSE file for terms. Noncommercial use only; commercial use requires
+a separate written agreement with the copyright holder.
+
+If you redistribute source or binaries containing substantial portions of this
+project, include the following attribution:
+
+    Based on PhishLab (phishlab) by Aymane Amounas
+    https://github.com/aymane-amounas/phishlab
+
+Third-party dependencies remain under their own respective licenses.

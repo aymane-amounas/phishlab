@@ -54,7 +54,7 @@ textarea { font-family: var(--mono); min-height: 160px; resize: vertical; }
   padding: 18px 14px;
 }
 .brand { font-weight: 700; font-size: 18px; letter-spacing: 0.3px; display: flex; align-items: center; }
-.brand-logo { display: block; margin-right: 9px; }
+.brand-logo { display: block; margin-right: 9px; border-radius: 6px; }
 .brand span { color: var(--accent); }
 .tagline { color: var(--muted); font-size: 11px; margin-top: 2px; margin-bottom: 20px; }
 .nav button {

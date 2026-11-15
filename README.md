@@ -1,10 +1,6 @@
 <p align="center">
-  <img src="assets/logo.svg" width="96" alt="PhishLab logo" />
+  <img src="assets/logo.png" width="520" alt="PhishLab - Understand suspicious emails. Investigate the evidence. Make informed security decisions." />
 </p>
-
-<h1 align="center">PhishLab</h1>
-
-<p align="center"><b>Understand suspicious emails. Investigate the evidence. Make informed security decisions.</b></p>
 
 PhishLab is a safe, offline-first phishing investigation workbench for SOC analysts,
 help desks, and security-conscious users. Import a suspicious `.eml`, and PhishLab parses
@@ -79,7 +75,9 @@ honest, per-milestone breakdown of what is built, tested, and deferred.
 
 ## License
 
-MIT - see [LICENSE](LICENSE).
+Aymane Amounas Noncommercial Attribution License 1.0 - see [LICENSE](LICENSE) and
+[NOTICE](NOTICE). Noncommercial use only; commercial use requires a separate written
+agreement with the copyright holder.
 
 ---
 <sub>Built by [Aymane](https://github.com/aymane-amounas)</sub>

@@ -3,6 +3,16 @@
 All notable changes to PhishLab are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/). Versioning: SemVer.
 
+## [Unreleased]
+
+### Added
+- Project logo (README banner, web UI favicon/sidebar) and a terminal startup banner.
+
+### Changed
+- License changed to the Aymane Amounas Noncommercial Attribution License 1.0 (was MIT);
+  added NOTICE. Earlier MIT-tagged releases remain under their original terms.
+- Backend serves the full built UI (including `/logo.png`) from the API.
+
 ## [1.0.0] - 2026-11-15
 
 ### Added

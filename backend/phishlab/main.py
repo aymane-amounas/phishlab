@@ -59,7 +59,7 @@ app.include_router(router)
 
 # Optionally serve a built frontend (single-container deployment).
 # Mounted last so /api/* routes always take precedence. html=True serves index.html at
-# "/" and exposes static files like /logo.svg and /assets/*.
+# "/" and exposes static files like /logo.png and /assets/*.
 _FRONTEND_DIR = os.environ.get("PHISHLAB_FRONTEND_DIR", "")
 if _FRONTEND_DIR and os.path.isdir(_FRONTEND_DIR):
     app.mount("/", StaticFiles(directory=_FRONTEND_DIR, html=True), name="frontend")

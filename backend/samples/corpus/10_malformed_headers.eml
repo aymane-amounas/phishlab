@@ -1,0 +1,5 @@
+From: broken@@example.com
+Subject: =?utf-8?B?corrupted==?=
+To victim@example.org
+
+Body with a link https://example.net/login and ip 198.51.100.9

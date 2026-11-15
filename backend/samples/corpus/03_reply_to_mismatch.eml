@@ -1,0 +1,11 @@
+From: Accounts <accounts@example.com>
+To: victim@example.org
+Subject: Invoice attached
+Date: Sun, 15 Nov 2026 16:42:19 -0000
+Message-ID: <synthetic-invoice-attached@example.test>
+Reply-To: collector@mailbox.invalid
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+See the attached invoice and remit payment.

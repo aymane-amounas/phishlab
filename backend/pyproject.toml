@@ -1,0 +1,45 @@
+[project]
+name = "phishlab"
+version = "1.0.0"
+description = "Safe, offline-first phishing investigation workbench"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Aymane Amounas" }]
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "python-multipart>=0.0.12",
+    "pydantic>=2.9",
+    "reportlab>=4.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "httpx>=0.27",
+    "ruff>=0.7",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["phishlab*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+# E501: line length is owned by the formatter.
+# B008: FastAPI's File()/Body()/Depends() defaults are the documented idiom.
+ignore = ["S101", "E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

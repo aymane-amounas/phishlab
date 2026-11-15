@@ -1,0 +1,37 @@
+From: SecureBank Support <no-reply@secure-bank.example.net>
+To: victim@example.org
+Subject: URGENT: Your SecureBank account will be suspended within 24 hours
+Date: Sun, 15 Nov 2026 16:42:19 -0000
+Message-ID: <synthetic-urgent
+Reply-To: recovery@bank-security-team.invalid
+Return-Path: <bounce@mailer.invalid>
+Authentication-Results: mx.example.org; spf=fail smtp.mailfrom=mailer.invalid;
+ dkim=fail header.d=secure-bank.example.net; dmarc=fail
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============6222244861602080212=="
+
+--===============6222244861602080212==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Dear Customer,
+
+We detected unusual activity. Your account will be suspended immediately unle=
+ss you verify your identity now. Please confirm your password and login detai=
+ls here:
+
+https://xn--securebank-9db.example.test/login/verify-account
+
+Failure to act within 24 hours will result in permanent account suspension.
+
+SecureBank Security Team
+
+--===============6222244861602080212==
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="Account_Statement.pdf.exe"
+MIME-Version: 1.0
+
+TVqQAAMAAABzeW50aGV0aWMtbm9uLWV4ZWN1dGFibGUtcGF5bG9hZA==
+
+--===============6222244861602080212==--

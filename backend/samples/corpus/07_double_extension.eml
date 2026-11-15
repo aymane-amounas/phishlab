@@ -1,0 +1,23 @@
+From: Vendor <vendor@example.net>
+To: victim@example.org
+Subject: Updated invoice
+Date: Sun, 15 Nov 2026 16:42:19 -0000
+Message-ID: <synthetic-updated-invoice@example.test>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============3375943926692303007=="
+
+--===============3375943926692303007==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Please open the attached invoice.
+
+--===============3375943926692303007==
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="invoice.pdf.exe"
+MIME-Version: 1.0
+
+TVqQAHRoaXMtaXMtbm90LXJlYWxseS1ydW4tc3ludGhldGlj
+
+--===============3375943926692303007==--

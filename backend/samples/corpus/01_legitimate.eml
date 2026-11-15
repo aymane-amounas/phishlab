@@ -1,0 +1,19 @@
+From: Billing <billing@example.com>
+To: victim@example.org
+Subject: Your October statement is ready
+Date: Sun, 15 Nov 2026 16:42:19 -0000
+Message-ID: <synthetic-your-october-stateme@example.test>
+Reply-To: billing@example.com
+Return-Path: <billing@example.com>
+Authentication-Results: mx.example.org; spf=pass smtp.mailfrom=example.com;
+ dkim=pass header.d=example.com; dmarc=pass
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+Hello,
+
+Your monthly statement is available in your account portal.
+
+Thanks,
+Billing

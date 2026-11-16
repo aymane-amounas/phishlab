@@ -64,12 +64,18 @@ def _is_ip_literal(host: str) -> bool:
 def breakdown(url: str) -> UrlBreakdown:
     parts = urlsplit(url if _SCHEME_RE.match(url) else "http://" + url)
     host = parts.hostname
+    # parts.port raises ValueError on an out-of-range port (e.g. a crafted :999999 in a
+    # hostile email). Input must never crash analysis, so treat a bad port as absent.
+    try:
+        port = parts.port
+    except ValueError:
+        port = None
     return UrlBreakdown(
         original=url,
         scheme=parts.scheme,
         userinfo=parts.username if parts.username else None,
         host=host,
-        port=parts.port,
+        port=port,
         path=parts.path or "",
         query=parts.query or "",
         fragment=parts.fragment or "",

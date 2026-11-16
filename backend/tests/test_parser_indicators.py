@@ -64,6 +64,22 @@ def test_breakdown_ip_literal():
     assert bd.port == 8080
 
 
+def test_breakdown_out_of_range_port_does_not_crash():
+    # A crafted out-of-range port must not raise (analysis treats hostile input).
+    bd = breakdown("http://1.2.3.4:999999/login")
+    assert bd.port is None
+    assert bd.host == "1.2.3.4"
+
+
+def test_analysis_survives_out_of_range_port_url():
+    from phishlab.engine import analyze_artifact
+    from phishlab.ingestion import ingest_text
+
+    artifact = ingest_text("Subject: x\n\nclick http://1.2.3.4:999999/login", source_kind="text")
+    result = analyze_artifact(artifact)  # must not raise
+    assert any(u["value"].startswith("http://1.2.3.4:999999") for u in result["indicators"]["urls"])
+
+
 def test_field_scan_is_capped(monkeypatch):
     # A huge body must not hang extraction.
     from phishlab.parser import ParsedEmail

@@ -144,9 +144,7 @@ def malformed_port() -> None:
 def deeply_nested() -> None:
     # Many wrapped multipart layers exercise the MIME depth/part caps (DoS defense).
     inner = b"Body with a link https://nested.example.test/login\r\n"
-    msg = (
-        b"Content-Type: text/plain\r\nContent-Transfer-Encoding: 7bit\r\n\r\n" + inner
-    )
+    msg = b"Content-Type: text/plain\r\nContent-Transfer-Encoding: 7bit\r\n\r\n" + inner
     for i in range(40):
         b = f"deep{i}".encode()
         msg = (
@@ -162,7 +160,9 @@ def deeply_nested() -> None:
 def idn_unicode_mix() -> None:
     m = _base("Confirm", "Security <security@example.net>")
     # Mixed-script host plus a zero-width character inside the label.
-    m.set_content("Open https://exa​mple.example.test/verify and https://xn--80ak6aa92e.example.test/login")
+    m.set_content(
+        "Open https://exa​mple.example.test/verify and https://xn--80ak6aa92e.example.test/login"
+    )
     write("14_idn_unicode_mix.eml", m)
 
 

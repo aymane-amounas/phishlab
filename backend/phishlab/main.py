@@ -7,11 +7,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from phishlab import __version__
 from phishlab.api import router
 from phishlab.banner import print_banner
+from phishlab.config import settings
 
 
 @asynccontextmanager
@@ -34,6 +36,23 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Reject oversized bodies before they are buffered. Content-Length is advisory (absent on
+# chunked uploads), so the per-field size checks in ingestion remain the hard limit.
+_MAX_BODY_BYTES = settings.max_upload_bytes + 1 * 1024 * 1024  # upload cap + multipart overhead
+
+
+@app.middleware("http")
+async def limit_body_size(request: Request, call_next):
+    cl = request.headers.get("content-length")
+    if cl is not None:
+        try:
+            if int(cl) > _MAX_BODY_BYTES:
+                return JSONResponse({"detail": "Request body too large."}, status_code=413)
+        except ValueError:
+            return JSONResponse({"detail": "Invalid Content-Length."}, status_code=400)
+    return await call_next(request)
 
 
 @app.middleware("http")

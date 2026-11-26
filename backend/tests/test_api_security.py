@@ -113,3 +113,21 @@ def test_prompt_injection_in_body_is_inert():
 def test_empty_upload_rejected():
     with pytest.raises(IngestionError):
         ingest_bytes(b"")
+
+
+def test_malformed_url_port_does_not_500(client):
+    # A crafted port in a hostile email once crashed extraction with an unhandled ValueError.
+    raw = b"From: a@evil.invalid\r\nSubject: x\r\n\r\nhttp://bad.example.test:99999999/login\r\n"
+    r = client.post(
+        "/api/analyze", files={"file": ("x.eml", io.BytesIO(raw), "message/rfc822")}
+    )
+    assert r.status_code == 200
+
+
+def test_oversized_content_length_rejected_early(client):
+    r = client.post(
+        "/api/analyze",
+        data={"text": "x"},
+        headers={"content-length": str(50 * 1024 * 1024)},
+    )
+    assert r.status_code == 413

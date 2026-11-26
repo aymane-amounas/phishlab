@@ -1,0 +1,206 @@
+From: a@example.net
+Subject: nested
+Content-Type: multipart/mixed; boundary=deep39
+
+--deep39
+Content-Type: multipart/mixed; boundary=deep38
+
+--deep38
+Content-Type: multipart/mixed; boundary=deep37
+
+--deep37
+Content-Type: multipart/mixed; boundary=deep36
+
+--deep36
+Content-Type: multipart/mixed; boundary=deep35
+
+--deep35
+Content-Type: multipart/mixed; boundary=deep34
+
+--deep34
+Content-Type: multipart/mixed; boundary=deep33
+
+--deep33
+Content-Type: multipart/mixed; boundary=deep32
+
+--deep32
+Content-Type: multipart/mixed; boundary=deep31
+
+--deep31
+Content-Type: multipart/mixed; boundary=deep30
+
+--deep30
+Content-Type: multipart/mixed; boundary=deep29
+
+--deep29
+Content-Type: multipart/mixed; boundary=deep28
+
+--deep28
+Content-Type: multipart/mixed; boundary=deep27
+
+--deep27
+Content-Type: multipart/mixed; boundary=deep26
+
+--deep26
+Content-Type: multipart/mixed; boundary=deep25
+
+--deep25
+Content-Type: multipart/mixed; boundary=deep24
+
+--deep24
+Content-Type: multipart/mixed; boundary=deep23
+
+--deep23
+Content-Type: multipart/mixed; boundary=deep22
+
+--deep22
+Content-Type: multipart/mixed; boundary=deep21
+
+--deep21
+Content-Type: multipart/mixed; boundary=deep20
+
+--deep20
+Content-Type: multipart/mixed; boundary=deep19
+
+--deep19
+Content-Type: multipart/mixed; boundary=deep18
+
+--deep18
+Content-Type: multipart/mixed; boundary=deep17
+
+--deep17
+Content-Type: multipart/mixed; boundary=deep16
+
+--deep16
+Content-Type: multipart/mixed; boundary=deep15
+
+--deep15
+Content-Type: multipart/mixed; boundary=deep14
+
+--deep14
+Content-Type: multipart/mixed; boundary=deep13
+
+--deep13
+Content-Type: multipart/mixed; boundary=deep12
+
+--deep12
+Content-Type: multipart/mixed; boundary=deep11
+
+--deep11
+Content-Type: multipart/mixed; boundary=deep10
+
+--deep10
+Content-Type: multipart/mixed; boundary=deep9
+
+--deep9
+Content-Type: multipart/mixed; boundary=deep8
+
+--deep8
+Content-Type: multipart/mixed; boundary=deep7
+
+--deep7
+Content-Type: multipart/mixed; boundary=deep6
+
+--deep6
+Content-Type: multipart/mixed; boundary=deep5
+
+--deep5
+Content-Type: multipart/mixed; boundary=deep4
+
+--deep4
+Content-Type: multipart/mixed; boundary=deep3
+
+--deep3
+Content-Type: multipart/mixed; boundary=deep2
+
+--deep2
+Content-Type: multipart/mixed; boundary=deep1
+
+--deep1
+Content-Type: multipart/mixed; boundary=deep0
+
+--deep0
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+
+Body with a link https://nested.example.test/login
+
+--deep0--
+
+--deep1--
+
+--deep2--
+
+--deep3--
+
+--deep4--
+
+--deep5--
+
+--deep6--
+
+--deep7--
+
+--deep8--
+
+--deep9--
+
+--deep10--
+
+--deep11--
+
+--deep12--
+
+--deep13--
+
+--deep14--
+
+--deep15--
+
+--deep16--
+
+--deep17--
+
+--deep18--
+
+--deep19--
+
+--deep20--
+
+--deep21--
+
+--deep22--
+
+--deep23--
+
+--deep24--
+
+--deep25--
+
+--deep26--
+
+--deep27--
+
+--deep28--
+
+--deep29--
+
+--deep30--
+
+--deep31--
+
+--deep32--
+
+--deep33--
+
+--deep34--
+
+--deep35--
+
+--deep36--
+
+--deep37--
+
+--deep38--
+
+--deep39--

@@ -1,18 +1,18 @@
 From: Friend <friend@example.org>
 To: victim@example.org
 Subject: Photo
-Date: Sun, 15 Nov 2026 16:42:19 -0000
+Date: Thu, 26 Nov 2026 02:12:42 -0000
 Message-ID: <synthetic-photo@example.test>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============3065630895537456950=="
+Content-Type: multipart/mixed; boundary="===============9014579821829212592=="
 
---===============3065630895537456950==
+--===============9014579821829212592==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 Here is the photo.
 
---===============3065630895537456950==
+--===============9014579821829212592==
 Content-Type: image/png
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="photo.png"
@@ -20,4 +20,4 @@ MIME-Version: 1.0
 
 TVqQAAM=
 
---===============3065630895537456950==--
+--===============9014579821829212592==--

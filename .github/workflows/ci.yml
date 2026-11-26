@@ -1,6 +1,4 @@
 # PhishLab CI.
-# STAGED: move this file to .github/workflows/ci.yml to activate (the token used to push
-# the initial commits lacked the `workflow` scope). See docs/deployment.md.
 name: CI
 
 on:

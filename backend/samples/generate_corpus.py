@@ -129,6 +129,55 @@ def empty_email() -> None:
         f.write(b"")
 
 
+def malformed_port() -> None:
+    # Out-of-range and non-numeric ports in a URL must not crash extraction.
+    raw = (
+        b"From: alerts@example.net\r\nSubject: sign-in\r\n\r\n"
+        b"verify at http://login.example.test:99999999/account and "
+        b"http://other.example.test:notaport/secure now\r\n"
+    )
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "12_malformed_port.eml"), "wb") as f:
+        f.write(raw)
+
+
+def deeply_nested() -> None:
+    # Many wrapped multipart layers exercise the MIME depth/part caps (DoS defense).
+    inner = b"Body with a link https://nested.example.test/login\r\n"
+    msg = b"Content-Type: text/plain\r\nContent-Transfer-Encoding: 7bit\r\n\r\n" + inner
+    for i in range(40):
+        b = f"deep{i}".encode()
+        msg = (
+            b"Content-Type: multipart/mixed; boundary=" + b + b"\r\n\r\n"
+            b"--" + b + b"\r\n" + msg + b"\r\n--" + b + b"--\r\n"
+        )
+    raw = b"From: a@example.net\r\nSubject: nested\r\n" + msg
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "13_deeply_nested.eml"), "wb") as f:
+        f.write(raw)
+
+
+def idn_unicode_mix() -> None:
+    m = _base("Confirm", "Security <security@example.net>")
+    # Mixed-script host plus a zero-width character inside the label.
+    m.set_content(
+        "Open https://exa​mple.example.test/verify and https://xn--80ak6aa92e.example.test/login"
+    )
+    write("14_idn_unicode_mix.eml", m)
+
+
+def oversized_header() -> None:
+    # A single very long header value must be scanned under the field cap, not hang.
+    raw = (
+        b"From: a@example.net\r\n"
+        b"X-Filler: " + (b"https://a.example.test/x " * 80000) + b"\r\n"
+        b"Subject: big\r\n\r\nshort body\r\n"
+    )
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "15_oversized_header.eml"), "wb") as f:
+        f.write(raw)
+
+
 def flagship_bank_phish() -> None:
     """The demonstration sample: fake bank sender, mismatched Reply-To, punycode domain,
     credential-harvesting URL, double-extension attachment, failed authentication."""
@@ -172,6 +221,10 @@ def main() -> None:
     nested_multipart()
     malformed_headers()
     empty_email()
+    malformed_port()
+    deeply_nested()
+    idn_unicode_mix()
+    oversized_header()
     print(f"Wrote synthetic corpus to {OUT}")
 
 

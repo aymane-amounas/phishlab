@@ -1,31 +1,31 @@
 From: News <news@example.com>
 To: victim@example.org
 Subject: Newsletter
-Date: Sun, 15 Nov 2026 16:42:19 -0000
+Date: Thu, 26 Nov 2026 02:12:42 -0000
 Message-ID: <synthetic-newsletter@example.test>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============3264787146346170160=="
+Content-Type: multipart/mixed; boundary="===============1914027777343018807=="
 
---===============3264787146346170160==
+--===============1914027777343018807==
 Content-Type: multipart/alternative;
- boundary="===============8303289320413706723=="
+ boundary="===============9041267903074764487=="
 
---===============8303289320413706723==
+--===============9041267903074764487==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 Plain text version.
 
---===============8303289320413706723==
+--===============9041267903074764487==
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 
 <p>HTML version with a <a href='https://example.com/read'>link</a>.</p>
 
---===============8303289320413706723==--
+--===============9041267903074764487==--
 
---===============3264787146346170160==
+--===============1914027777343018807==
 Content-Type: text/csv
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="data.csv"
@@ -33,4 +33,4 @@ MIME-Version: 1.0
 
 Y29sMSxjb2wyCjEsMgo=
 
---===============3264787146346170160==--
+--===============1914027777343018807==--

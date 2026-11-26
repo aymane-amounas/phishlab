@@ -1,0 +1,4 @@
+From: alerts@example.net
+Subject: sign-in
+
+verify at http://login.example.test:99999999/account and http://other.example.test:notaport/secure now

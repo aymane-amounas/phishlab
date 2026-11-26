@@ -61,6 +61,15 @@ def _is_ip_literal(host: str) -> bool:
     return bool(re.fullmatch(r"\d{1,3}(\.\d{1,3}){3}", host))
 
 
+def _safe_port(parts) -> int | None:
+    # urlsplit(...).port raises ValueError on out-of-range or non-numeric ports; a crafted
+    # URL in a hostile email must never crash extraction. Treat a bad port as "no port".
+    try:
+        return parts.port
+    except ValueError:
+        return None
+
+
 def breakdown(url: str) -> UrlBreakdown:
     parts = urlsplit(url if _SCHEME_RE.match(url) else "http://" + url)
     host = parts.hostname
@@ -69,7 +78,7 @@ def breakdown(url: str) -> UrlBreakdown:
         scheme=parts.scheme,
         userinfo=parts.username if parts.username else None,
         host=host,
-        port=parts.port,
+        port=_safe_port(parts),
         path=parts.path or "",
         query=parts.query or "",
         fragment=parts.fragment or "",

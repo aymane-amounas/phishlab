@@ -1,7 +1,7 @@
 From: Accounts <accounts@example.com>
 To: victim@example.org
 Subject: Invoice attached
-Date: Sun, 15 Nov 2026 16:42:19 -0000
+Date: Thu, 26 Nov 2026 02:12:42 -0000
 Message-ID: <synthetic-invoice-attached@example.test>
 Reply-To: collector@mailbox.invalid
 Content-Type: text/plain; charset="utf-8"

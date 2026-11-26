@@ -1,7 +1,7 @@
 From: Support <support@example.com>
 To: victim@example.org
 Subject: Account notice
-Date: Sun, 15 Nov 2026 16:42:19 -0000
+Date: Thu, 26 Nov 2026 02:12:42 -0000
 Message-ID: <synthetic-account-notice@example.test>
 Authentication-Results:
  mx.example.org; spf=fail smtp.mailfrom=sender.invalid; dkim=none; dmarc=fail

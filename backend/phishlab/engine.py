@@ -6,15 +6,25 @@ from dataclasses import asdict
 
 from phishlab.attachments import inspect_all
 from phishlab.detection import AnalysisContext, finding_to_dict, run
-from phishlab.indicators import extract
+from phishlab.indicators import IndicatorSet, extract
 from phishlab.ingestion import Artifact
 from phishlab.parser import parse
 
 
 def analyze_artifact(artifact: Artifact) -> dict:
     parsed = parse(artifact.raw)
-    indicators = extract(parsed)
-    att_reports = inspect_all(parsed.attachments)
+    # Extraction/inspection run on attacker-controlled content; a parser edge case must
+    # degrade to a warning, never a 500. The detection engine already isolates its rules.
+    try:
+        indicators = extract(parsed)
+    except Exception as exc:
+        indicators = IndicatorSet()
+        parsed.warnings.append(f"Indicator extraction error: {exc!r}")
+    try:
+        att_reports = inspect_all(parsed.attachments)
+    except Exception as exc:
+        att_reports = []
+        parsed.warnings.append(f"Attachment inspection error: {exc!r}")
     assessment = run(AnalysisContext(parsed=parsed, indicators=indicators, attachments=att_reports))
 
     return {

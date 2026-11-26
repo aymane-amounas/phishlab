@@ -28,6 +28,16 @@ within a few days.
 See [docs/threat-model.md](docs/threat-model.md) and
 [docs/security-model.md](docs/security-model.md) for the full analysis.
 
+## Dependency hygiene
+
+Runtime dependencies (fastapi, uvicorn, reportlab, pydantic, python-multipart) are audited
+with `pip-audit` and are clean. The React frontend is a **build-time** concern only: the
+shipped artifact is static `dist/` served by FastAPI, and `vite`/`esbuild` never run in
+production. `esbuild` is pinned via an `overrides` entry to a patched release. Remaining
+`npm audit` advisories apply to the vite dev server (`npm run dev`) alone, which binds to
+localhost; they do not reach the deployed application. Upgrading past the vite 5.x line is
+a breaking change deferred until the toolchain is revalidated.
+
 ## Supported versions
 
 v1.x receives security fixes. This is a portfolio/defensive-research project; run it

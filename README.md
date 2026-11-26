@@ -61,6 +61,44 @@ docker compose up --build
 See [docs/](docs/) for architecture, email parsing, detection rules, privacy, the
 security model, the SSRF-safe network design, the report schema, and deployment.
 
+## Investigation workflow
+
+A full pass on one suspicious email, API-first (the UI drives the same endpoints):
+
+```bash
+# 1. Import and analyze an .eml, persisting it as a case
+curl -s -F file=@backend/samples/corpus/00_flagship_bank_phish.eml \
+  http://127.0.0.1:8000/api/cases > case.json
+CID=$(python -c "import json;print(json.load(open('case.json'))['id'])")
+
+# 2. Read the evidence: parsed headers, auth results, indicators, findings
+python -c "import json;a=json.load(open('case.json'))['analysis'];\
+print(a['summary_headers']['from']);\
+print([f['rule_id'] for f in a['findings']])"
+
+# 3. Indicators come back defanged (hxxp, [.]) and never auto-resolved
+python -c "import json;a=json.load(open('case.json'))['analysis'];\
+print([u['defanged'] for u in a['indicators']['urls']])"
+
+# 4. Attachments are inspected statically only: magic bytes, sha256, risk flags
+python -c "import json;a=json.load(open('case.json'))['analysis'];\
+print([(x['filename'],x['detected_type'],x['flags']) for x in a['attachments']])"
+
+# 5. Record a disposition after reviewing the evidence yourself
+curl -s -X PATCH http://127.0.0.1:8000/api/cases/$CID/disposition \
+  -H 'content-type: application/json' \
+  -d '{"disposition":"malicious","rationale":"spoofed bank, failed auth, exec attachment"}'
+
+# 6. Export a report (JSON or PDF), redacted by default
+curl -s http://127.0.0.1:8000/api/cases/$CID/report.json > report.json
+curl -s "http://127.0.0.1:8000/api/cases/$CID/report.pdf?redact=true" -o report.pdf
+```
+
+The flagship sample exercises every surface at once: spoofed bank sender, Reply-To
+mismatch, failed SPF/DKIM/DMARC (sender-reported), a punycode credential-harvesting URL,
+and a double-extension executable attachment. Nothing in it is ever opened, rendered, or
+fetched.
+
 ## Safety & privacy
 
 Offline by default. No telemetry. Attachments are never executed. Untrusted HTML is never

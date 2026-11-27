@@ -1,18 +1,18 @@
-# PhishLab Threat Model
+# Threat model
 
-## 1. What we are protecting
+## What we are protecting
 
-PhishLab is a workbench that analysts point **at malicious content on purpose**. The
-assets to protect are:
+PhishLab is a workbench that analysts point at malicious content on purpose, so the assets
+to protect are specific:
 
-1. **The analyst's host and session** - must not be compromised by analyzing a sample.
-2. **The confidentiality of the artifact** - suspicious emails often contain real
-   victim data; it must not leak to third parties.
-3. **The integrity of findings** - the tool must not be tricked (by crafted input)
-   into producing false evidence or executing attacker intent.
-4. **Availability** - malformed/oversized input must not crash or hang the service.
+1. The analyst's host and session. Analyzing a sample must not compromise them.
+2. The confidentiality of the artifact. Suspicious emails often contain real victim data,
+   and it must not leak to third parties.
+3. The integrity of findings. Crafted input must not trick the tool into producing false
+   evidence or into executing attacker intent.
+4. Availability. Malformed or oversized input must not crash or hang the service.
 
-## 2. Trust boundaries
+## Trust boundaries
 
 ```
  Analyst (trusted) ──► Browser UI (semi-trusted) ──► API (trusted code)
@@ -28,11 +28,10 @@ assets to protect are:
              Network lookup (SSRF-sensitive boundary)
 ```
 
-Everything crossing into "Uploaded artifact" is **untrusted data**. Code on the trusted
-side must never (a) execute it, (b) render it as active content, or (c) follow
-instructions embedded in it.
+Everything crossing into "Uploaded artifact" is untrusted data. Code on the trusted side
+must never execute it, render it as active content, or follow instructions embedded in it.
 
-## 3. STRIDE analysis
+## STRIDE analysis
 
 | Threat | Vector | Mitigation |
 |---|---|---|
@@ -44,30 +43,30 @@ instructions embedded in it.
 | **Elevation of privilege** | Attachment executed, macro run, path traversal on save | Attachments never written to an execution path; stored by content hash, never by attacker-chosen filename; filenames sanitized; no host-app opening. |
 | **SSRF** (network module) | URL resolving to `169.254.169.254`, `127.0.0.1`, internal host; DNS rebinding | Module disabled by default. When enabled: scheme allowlist (http/https), IP-literal + resolved-IP checks against private/loopback/link-local/reserved ranges, per-hop revalidation, redirect cap, size/time caps, no cookies/creds, no body execution. |
 
-## 4. Specific attack cases and handling
+## Specific attack cases
 
-- **Punycode / IDN homograph** (`xn--pple-43d.com`) → decoded, flagged, shown with both
-  forms. Never silently normalized away.
-- **Double extension** (`invoice.pdf.exe`) → flagged; dangerous-extension list.
-- **MIME/extension mismatch** → declared type vs magic bytes compared; flagged.
-- **Header injection / CRLF** in extracted values → values are escaped before display;
-  never reflected into HTTP responses or logs unescaped.
-- **Oversized / malformed** → rejected or parsed defensively with `email` lax policy;
-  parser failures become findings, not crashes.
-- **Billion laughs / nested multipart** → depth and part-count caps.
+- Punycode / IDN homograph (`xn--pple-43d.com`): decoded, flagged, and shown with both
+  forms. It is never silently normalized away.
+- Double extension (`invoice.pdf.exe`): flagged against the dangerous-extension list.
+- MIME/extension mismatch: the declared type is compared against the magic bytes and
+  flagged if they disagree.
+- Header injection / CRLF in extracted values: values are escaped before display and never
+  reflected into HTTP responses or logs unescaped.
+- Oversized or malformed input: rejected, or parsed defensively under the `email` lax
+  policy, where parser failures become findings rather than crashes.
+- Billion laughs / nested multipart: handled by the depth and part-count caps.
 
-## 5. Residual risks (v1)
+## Residual risks in v1
 
-- No independent SPF/DKIM/DMARC cryptographic verification - we report sender claims and
-  locally observable alignment only.
-- No sandboxed detonation (explicitly out of scope; any future detonation must be a
-  separate, isolated, opt-in system).
-- Static file-type detection relies on magic bytes, which can be spoofed; treated as a
-  signal, not proof.
-- The optional network module, if ever enabled, remains the highest-risk surface and is
-  shipped disabled.
+There is no independent SPF/DKIM/DMARC cryptographic verification; the tool reports sender
+claims and locally observable alignment only. There is no sandboxed detonation, which is
+explicitly out of scope (any future detonation has to be a separate, isolated, opt-in
+system). Static file-type detection relies on magic bytes, which can be spoofed, so it is
+treated as a signal and not as proof. And the optional network module, if it is ever
+enabled, stays the highest-risk surface, which is why it ships disabled.
 
-## 6. Non-goals
+## Non-goals
 
-- Not an antivirus, not a sandbox, not a mail server, not a live link visitor.
-- Does not guarantee a verdict; it surfaces evidence for a human analyst to decide.
+PhishLab is not an antivirus, not a sandbox, not a mail server, and not a live link
+visitor. It does not guarantee a verdict. It surfaces evidence for a human analyst to
+decide on.

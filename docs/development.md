@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Python 3.11+ (tested on 3.14)
-- Node 18+ (for the frontend)
+- Node 18+ for the frontend
 
 ## Backend
 
@@ -33,7 +33,8 @@ npm run dev        # http://127.0.0.1:5173 (proxies /api to :8000)
 npm run build      # outputs frontend/dist
 ```
 
-To serve the built UI from the backend (single process), set `PHISHLAB_FRONTEND_DIR`:
+To serve the built UI from the backend as a single process, point
+`PHISHLAB_FRONTEND_DIR` at the build:
 
 ```bash
 PHISHLAB_FRONTEND_DIR=../frontend/dist uvicorn phishlab.main:app --host 127.0.0.1 --port 8000
@@ -41,11 +42,14 @@ PHISHLAB_FRONTEND_DIR=../frontend/dist uvicorn phishlab.main:app --host 127.0.0.
 
 ## Module layout
 
-See [architecture.md](architecture.md). Modules are import-isolated:
+See [architecture.md](architecture.md). The modules are import-isolated and the data runs
+through them in order:
 `ingestion -> parser -> indicators/attachments -> detection -> cases -> reporting`, with
 `network` kept out of the default path.
 
-## Configuration (environment variables)
+## Configuration
+
+Everything is set through environment variables:
 
 | Var | Default | Meaning |
 |---|---|---|
@@ -60,7 +64,7 @@ See [architecture.md](architecture.md). Modules are import-isolated:
 
 ## Adding a detection rule
 
-1. Add a `_r_*` function in `phishlab/detection/__init__.py` returning `list[Finding]`.
+1. Add a `_r_*` function in `phishlab/detection/__init__.py` that returns `list[Finding]`.
 2. Register it in `RULES`.
-3. Add a test in `tests/test_attachments_detection.py` (a rule is not done without one).
+3. Add a test in `tests/test_attachments_detection.py`. A rule is not done without one.
 4. Document it in [detection-rules.md](detection-rules.md).

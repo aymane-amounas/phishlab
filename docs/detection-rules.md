@@ -1,24 +1,25 @@
-# Detection Rules & Methodology
+# Detection rules and methodology
 
-PhishLab's engine is transparent by design. There is no single opaque phishing score.
-Each rule produces a discrete `Finding` with its own evidence and two independent axes.
+The engine is transparent by design. There is no single opaque phishing score. Each rule
+produces a discrete `Finding` with its own evidence and two independent axes.
 
-## Severity vs confidence
+## Severity versus confidence
 
-- **Severity** = potential impact *if the signal is true*: `informational < low < medium
-  < high < critical`.
-- **Confidence** = how certain we are the observation is real/meaningful: `low < medium
-  < high`.
+Severity is the potential impact if the signal is true:
+`informational < low < medium < high < critical`. Confidence is how certain the tool is
+that the observation is real and meaningful: `low < medium < high`.
 
-They are reported separately. A reported SPF failure is high *severity* but medium
-*confidence*, because the result is sender-reported and not independently verified. A
-display-name heuristic may be medium severity but low confidence.
+They are kept separate because they answer different questions. A reported SPF failure is
+high severity but only medium confidence, because the result is sender-reported and not
+independently verified. A display-name heuristic might be medium severity but low
+confidence. Collapsing those into one number would hide exactly the thing an analyst needs
+to see.
 
 ## The overall assessment
 
-`assessment.summary` aggregates the findings (counts per severity, highest severity). It
-is explained in the UI and report as an aggregation of the listed findings, never a
-black box. An analyst makes the final disposition.
+`assessment.summary` aggregates the findings (counts per severity, and the highest
+severity present). The UI and the report present it as an aggregation of the listed
+findings, never as a black box. The analyst still makes the final disposition.
 
 ## Rule catalogue
 
@@ -45,21 +46,21 @@ black box. An analyst makes the final disposition.
 | PL-ATT-003 | attachment | medium | high | Extension/magic-byte mismatch |
 | PL-ATT-004 | attachment | high | high | Magic bytes are executable content |
 
-Every finding carries: `rule_id`, `title`, `category`, `severity`, `confidence`,
-`evidence` (the concrete matched value), `explanation`, `location` (source), and
+Every finding carries `rule_id`, `title`, `category`, `severity`, `confidence`,
+`evidence` (the concrete matched value), `explanation`, `location` (the source), and
 `recommendation`.
 
-## False-positive discipline
+## Keeping false positives in check
 
-- A single weak signal does not make an email "malicious". The engine surfaces evidence;
-  it does not declare verdicts.
-- Return-Path/Reply-To mismatches are common with legitimate ESPs and mailing lists;
-  flagged at medium with a note to correlate with authentication alignment.
-- Content heuristics (urgency, payment) are low/medium confidence by design.
+A single weak signal does not make an email "malicious". The engine surfaces evidence; it
+does not hand down verdicts. Return-Path and Reply-To mismatches, for instance, are common
+with legitimate ESPs and mailing lists, so they are flagged at medium with a note to
+correlate against authentication alignment. The content heuristics (urgency, payment) are
+deliberately low or medium confidence.
 
 ## Limitations
 
-- Authentication results are parsed from the sender-supplied `Authentication-Results`
-  header. PhishLab does not perform cryptographic SPF/DKIM/DMARC verification in v1.
-- Content rules are keyword-based and language-limited (English lexicon in v1).
-- Lookalike detection is heuristic (punycode/IDN, Unicode), not a brand database.
+Authentication results are parsed from the sender-supplied `Authentication-Results`
+header; PhishLab does not do cryptographic SPF/DKIM/DMARC verification in v1. The content
+rules are keyword-based and limited to an English lexicon in v1. Lookalike detection is
+heuristic (punycode/IDN and Unicode), not a brand database.

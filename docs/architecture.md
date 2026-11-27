@@ -1,9 +1,11 @@
 # Architecture
 
 PhishLab is a modular, local-first application: a Python analysis engine behind a FastAPI
-HTTP API, a React/Vite workbench frontend, and SQLite for case persistence.
+HTTP API, a React/Vite workbench on the front, and SQLite for case persistence.
 
-## Components (independent modules)
+## Components
+
+Each directory under `backend/phishlab/` is its own module with a single job.
 
 ```
 backend/phishlab/
@@ -19,9 +21,11 @@ backend/phishlab/
   api/           FastAPI routes
 ```
 
-Each module is import-isolated: `parser` does not know about `cases`; `detection`
-consumes parser+indicator outputs and emits findings; `reporting` consumes a case. This
-keeps the security-sensitive parsing/extraction code free of storage/transport concerns.
+The modules are import-isolated on purpose. `parser` does not know `cases` exists,
+`detection` consumes parser and indicator output and emits findings, and `reporting`
+consumes a case. The point is to keep the security-sensitive parsing and extraction code
+free of any storage or transport concerns, so there is less surface for a mistake to
+cross between layers.
 
 ## Data flow
 
@@ -43,26 +47,35 @@ keeps the security-sensitive parsing/extraction code free of storage/transport c
    reporting  ──► JSON (schema v1) / PDF (defanged)
 ```
 
-The network module is **not** in the default path. It is invoked only when an operator
-enables it and explicitly initiates a lookup for a specific URL.
+The network module is not in that default path. It runs only when an operator enables it
+and explicitly asks for a lookup on a specific URL.
 
-## Key architectural decisions (ADRs, abbreviated)
+## Key decisions
 
-- **ADR-001 Python stdlib `email` over a custom parser.** It is mature, memory-safe
-  (pure Python), handles malformed input via lax policy, and avoids reinventing a
-  hostile-input parser. Chosen over writing our own or pulling a heavy dependency.
-- **ADR-002 Evidence-first detection, no single opaque score.** Each finding is a
-  discrete, explainable rule with its own severity and *independent* confidence. The
-  "overall assessment" is an aggregation the UI explains, not a black box.
-- **ADR-003 SQLite, local-only.** Zero-config, offline, file-backed, good enough for a
-  single-analyst workbench. Migrations + indexes included; swappable later.
-- **ADR-004 Network module isolated and default-off.** SSRF risk is high enough that
-  static analysis must be fully useful without it.
-- **ADR-005 Severity != confidence.** Severity = potential impact if true; confidence =
-  how sure we are the signal is real. Reported separately.
+These are the architecture decisions I made and why, kept short.
+
+ADR-001, Python stdlib `email` over a custom parser. It is mature, pure-Python so
+memory-safe, and it already handles malformed input through its lax policy. Writing my own
+hostile-input parser, or pulling in a heavy dependency to do it, both looked worse than
+leaning on the standard library.
+
+ADR-002, evidence-first detection with no single opaque score. Each finding is a discrete,
+explainable rule with its own severity and its own confidence. The overall assessment is
+an aggregation the UI explains, not a black box.
+
+ADR-003, SQLite, local-only. Zero-config, offline, file-backed, and good enough for a
+single-analyst workbench. It has migrations and indexes, and it is swappable later if that
+changes.
+
+ADR-004, the network module is isolated and default-off. The SSRF risk is high enough that
+static analysis has to be fully useful without it.
+
+ADR-005, severity is not confidence. Severity is the potential impact if the signal is
+true; confidence is how sure I am the signal is real. They are reported separately so one
+does not quietly stand in for the other.
 
 ## Deployment
 
-Docker Compose runs the API (uvicorn) and serves the built frontend via the API's static
-mount (single container) or a separate nginx container. Binds to `127.0.0.1` by default.
-See [deployment.md](deployment.md).
+Docker Compose runs the API (uvicorn) and serves the built frontend from the API's static
+mount in a single container, or from a separate nginx container. It binds to `127.0.0.1`
+by default. See [deployment.md](deployment.md).

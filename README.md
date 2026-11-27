@@ -2,41 +2,47 @@
   <img src="assets/logo.png" width="520" alt="PhishLab - Understand suspicious emails. Investigate the evidence. Make informed security decisions." />
 </p>
 
-PhishLab is a safe, offline-first phishing investigation workbench for SOC analysts,
-help desks, and security-conscious users. Import a suspicious `.eml`, and PhishLab parses
-the headers and MIME structure, extracts indicators, defangs URLs, inspects attachment
-metadata **without ever executing anything**, and produces evidence-linked findings you
-can turn into a JSON or PDF report.
+PhishLab is an offline-first workbench for investigating suspicious emails. You give it a
+`.eml` (or pasted headers, or a plain-text body) and it parses the headers and MIME
+structure, pulls out indicators, defangs the URLs, looks at attachment metadata without
+running anything, and hands you findings that each point back at the evidence they came
+from. You can then save the case and export a JSON or PDF report.
 
-It is built around three non-negotiables:
+I built it around three ideas I did not want to compromise on.
 
-1. **Evidence before scores.** Every finding has a rule id, severity, independent
-   confidence, concrete evidence, and a source location. No black-box phishing percentage.
-2. **Offline-first is real.** Static analysis makes zero outbound network calls. Fully
-   useful without VirusTotal, urlscan, or any third party.
-3. **Network isolation is not optional.** Optional URL/redirect inspection is treated as
-   an SSRF-sensitive subsystem and ships **disabled by default**.
+The first is evidence before scores. Every finding carries a rule id, a severity, a
+confidence that is tracked separately from severity, the concrete thing that matched, and
+where in the message it matched. There is no single black-box "this is 87% phishing"
+number, because I do not trust those and neither should an analyst.
 
-> PhishLab never executes attachments, never renders untrusted HTML, and never
-> auto-opens extracted links. Treat it as an evidence surface for a human analyst - not
-> an oracle that returns a verdict.
+The second is that offline-first has to be real, not a marketing line. The static
+analysis makes zero outbound network calls. It is fully useful with no VirusTotal, no
+urlscan, no third-party anything.
 
-## Features
+The third is that network isolation is not a toggle you flip casually. The optional
+URL/redirect inspection is treated as an SSRF-sensitive subsystem and ships disabled by
+default.
+
+So treat PhishLab as an evidence surface for a human analyst, not an oracle that returns
+a verdict. It never executes attachments, never renders untrusted HTML, and never
+auto-opens extracted links.
+
+## What it does
 
 - `.eml` upload, raw header paste, and plain-text body input
-- Full header + MIME tree parsing (multipart, nested, encoded/internationalized headers,
-  malformed input handled defensively)
-- Sender identity analysis: display-name / Reply-To / Return-Path / From alignment
-- Authentication results parsing - clearly labeled **sender-reported**, not verified
+- Header and MIME tree parsing: multipart, nested, encoded and internationalized headers,
+  and malformed input handled without crashing
+- Sender identity checks across display-name, Reply-To, Return-Path, and From
+- Authentication results parsing, labeled as sender-reported rather than verified
 - Indicator extraction: URLs, domains, IPv4/IPv6, emails, attachment metadata, hashes
-- Punycode/IDN and suspicious-Unicode detection, lookalike-domain analysis
-- Safe URL defanging (`hxxps://example[.]com`) + component breakdown
+- Punycode/IDN and suspicious-Unicode detection, plus lookalike-domain analysis
+- URL defanging (`hxxps://example[.]com`) and a component breakdown
 - Static attachment inspection: name, declared MIME, magic-byte type, size, SHA-256,
-  double-extension and MIME-mismatch detection - **no execution, ever**
-- Transparent rule-based detection engine (severity vs confidence)
-- SQLite case management with notes, analyst disposition, search
-- JSON (versioned schema) and PDF reports, defanged, with redaction option
-- Opt-in, SSRF-hardened redirect inspection (disabled by default)
+  double-extension and MIME-mismatch flags, with no execution at any point
+- A rule-based detection engine where severity and confidence are reported separately
+- SQLite case management with notes, analyst disposition, and search
+- JSON (versioned schema) and PDF reports, defanged, with an optional redaction pass
+- Opt-in redirect inspection with SSRF guards, disabled by default
 
 ## Quick start
 
@@ -52,18 +58,19 @@ cd frontend
 npm install && npm run dev
 ```
 
-Or with Docker (binds to localhost only):
+Or with Docker, which binds to localhost only:
 
 ```bash
 docker compose up --build
 ```
 
-See [docs/](docs/) for architecture, email parsing, detection rules, privacy, the
-security model, the SSRF-safe network design, the report schema, and deployment.
+The [docs/](docs/) folder covers architecture, email parsing, detection rules, privacy,
+the security model, the SSRF-safe network design, the report schema, and deployment.
 
 ## Investigation workflow
 
-A full pass on one suspicious email, API-first (the UI drives the same endpoints):
+Here is a full pass on one suspicious email, done through the API. The UI drives the same
+endpoints, so this is just the plumbing underneath it.
 
 ```bash
 # 1. Import and analyze an .eml, persisting it as a case
@@ -94,26 +101,26 @@ curl -s http://127.0.0.1:8000/api/cases/$CID/report.json > report.json
 curl -s "http://127.0.0.1:8000/api/cases/$CID/report.pdf?redact=true" -o report.pdf
 ```
 
-The flagship sample exercises every surface at once: spoofed bank sender, Reply-To
-mismatch, failed SPF/DKIM/DMARC (sender-reported), a punycode credential-harvesting URL,
-and a double-extension executable attachment. Nothing in it is ever opened, rendered, or
-fetched.
+The flagship sample is built to exercise every surface at once: a spoofed bank sender, a
+Reply-To mismatch, failed SPF/DKIM/DMARC (sender-reported), a punycode
+credential-harvesting URL, and a double-extension executable attachment. None of it is
+ever opened, rendered, or fetched.
 
-## Safety & privacy
+## Safety and privacy
 
-Offline by default. No telemetry. Attachments are never executed. Untrusted HTML is never
-rendered. All sample emails in this repo are **synthetic** - no real addresses,
-credentials, or private data. See [SECURITY.md](SECURITY.md),
+Offline by default, no telemetry. Attachments are never executed and untrusted HTML is
+never rendered. Every sample email in this repo is synthetic, with no real addresses,
+credentials, or private data. For the details see [SECURITY.md](SECURITY.md),
 [docs/threat-model.md](docs/threat-model.md), and [docs/privacy.md](docs/privacy.md).
 
 ## Status
 
-Early but functional. See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for an
-honest, per-milestone breakdown of what is built, tested, and deferred.
+Early but functional. [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) has a
+per-milestone breakdown of what is built, tested, and deferred.
 
 ## License
 
-Aymane Amounas Noncommercial Attribution License 1.0 - see [LICENSE](LICENSE) and
+Aymane Amounas Noncommercial Attribution License 1.0, see [LICENSE](LICENSE) and
 [NOTICE](NOTICE). Noncommercial use only; commercial use requires a separate written
 agreement with the copyright holder.
 

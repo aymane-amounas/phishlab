@@ -1,7 +1,7 @@
-# Report Schema (v1.0)
+# Report schema (v1.0)
 
-JSON reports are produced by `phishlab.reporting.build_json_report`. The schema is
-versioned via `schema_version`.
+JSON reports come out of `phishlab.reporting.build_json_report`, and the shape is
+versioned through `schema_version`.
 
 ## Top-level shape
 
@@ -37,24 +37,24 @@ versioned via `schema_version`.
 }
 ```
 
-## Guarantees
+## What the schema guarantees
 
-- All URLs appear **defanged** (`defanged` field; raw `value` is retained for evidence
-  but is never clickable).
-- `redacted: true` (default) replaces email addresses in sender fields and analyst notes
-  with `[redacted-email]`.
-- `authentication.verified` is always `false` in v1.
-- `caveats` always lists the interpretation limits.
+All URLs appear defanged, in the `defanged` field. The raw `value` is kept for evidence
+but is never clickable. With `redacted: true` (the default) the email addresses in sender
+fields and analyst notes are replaced with `[redacted-email]`. `authentication.verified`
+is always `false` in v1, for the reasons in [email-parsing.md](email-parsing.md). And
+`caveats` always lists the interpretation limits, so a consumer cannot read the findings
+without also seeing what they do not mean.
 
 ## Endpoints
 
 - `GET /api/cases/{id}/report.json?redact=true|false`
 - `GET /api/cases/{id}/report.pdf?redact=true|false`
 
-The PDF mirrors this content with an executive summary, sender/auth table, findings
-(severity-colored, with evidence and confidence), defanged indicators, and caveats.
+The PDF mirrors this content with an executive summary, a sender/auth table, the findings
+(severity-colored, with evidence and confidence), defanged indicators, and the caveats.
 
 ## Versioning
 
-Backward-incompatible changes bump `schema_version`. Consumers should check it before
-parsing.
+Any backward-incompatible change bumps `schema_version`, so a consumer should check it
+before parsing.
